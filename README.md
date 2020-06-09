@@ -1,1 +1,1 @@
-# fern_exercise
+# FERN Exercise (Firebase, Express, React, Node)
