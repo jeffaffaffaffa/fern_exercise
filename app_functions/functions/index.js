@@ -6,7 +6,7 @@ const app = require('express')();
 const FBAuth = require('./util/FBAuth');
 //get all handlers for posts and user login/signup
 const { getAllPosts, createNewPost } = require('./handlers/posts');
-const { userSignup, userLogin, uploadImage } = require('./handlers/users');
+const { userSignup, userLogin, uploadImage, addUserDetails, getAuthenticatedUserDetails } = require('./handlers/users');
 
 //to get the posts from firebase; posts route
 //uses express to define the route:
@@ -22,6 +22,10 @@ app.post('/signup', userSignup);
 app.post('/login', userLogin);
 //posting an image to server, needs auth so only users can upload
 app.post('/user/image', FBAuth, uploadImage);
+//adding user details
+app.post('/user', FBAuth, addUserDetails);
+//get details pertaining to stuff user has liked, interacted with, etc.
+app.get('/user', FBAuth, getAuthenticatedUserDetails);
 
 //good practice to have /api first                                                                   //
 //passing in the app to onRequest will automatically have it go to multiple routes, as defined above //
