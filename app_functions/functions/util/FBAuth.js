@@ -26,6 +26,8 @@ module.exports = (req, res, next) => {
         .then(data => {
             //the username is in the first thing in the data.docs array, since we limited to one.
             req.user.username = data.docs[0].data().username;
+            //add user image as well
+            req.user.imageUrl = data.docs[0].data().imageUrl;
             //returning next() allows the function to proceed; middleware is finished
             return next();
         })

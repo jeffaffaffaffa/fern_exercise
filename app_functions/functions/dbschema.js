@@ -22,8 +22,16 @@ let db = {
             numLikes: 5,
             numComments: 2
         }
+    ],
+    comments: [
+        {
+            username: 'user',
+            postId: 'kjfajsdjskadj', //corresponds to the post it came from
+            body: 'nice',
+            createdAt: '2019-03-15T11:46:01.018Z'
+        }
     ]
-}
+};
 
 const userDetails = {
     credentials: {
@@ -46,4 +54,4 @@ const userDetails = {
             postId: 'asldsakd'
         }
     ]
-}
+};
