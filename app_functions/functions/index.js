@@ -5,7 +5,7 @@ const app = require('express')();
 //get firebase authentication middleware
 const FBAuth = require('./util/FBAuth');
 //get all handlers for posts and user login/signup
-const { getAllPosts, createNewPost, getPost, commentOnPost } = require('./handlers/posts');
+const { getAllPosts, createNewPost, getPost, commentOnPost, likePost, dislikePost, deletePost } = require('./handlers/posts');
 const { userSignup, userLogin, uploadImage, addUserDetails, getAuthenticatedUserDetails } = require('./handlers/users');
 
 //** POST ROUTES **//
@@ -18,11 +18,15 @@ app.get('/posts', getAllPosts);
 app.post('/post', FBAuth, createNewPost);
 // allow users to view a particular post, not protected so any user can see it.
 app.get('/posts/:postId', getPost);
-// TODO: delete post
-// TODO: like a post
-// TODO: dislike a post
+// route to delete a post; must be authorized
+app.delete('/posts/:postId', FBAuth, deletePost);
+// route to like a post; must be authorized
+app.get('/posts/:postId/like', FBAuth, likePost);
+// route to disklike a post; must be authorized
+app.get('/posts/:postId/dislike', FBAuth, dislikePost);
 // creating a comment, only authorized users can comment
 app.post('/posts/:postId/comment', FBAuth, commentOnPost);
+// TODO: create edit post route
 
 
 //** USER ROUTES **//
