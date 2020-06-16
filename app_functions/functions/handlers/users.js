@@ -69,7 +69,7 @@ exports.userSignup = (req, res) => {
             if (err.code === 'auth/email-already-in-use') {
                 return res.status(400).json({ email: 'Email is already in use!' })
             } else {
-                return res.status(500).json({ error: err.code });
+                return res.status(500).json({ general: 'Something went wrong, please try again!' });
             }
         });
 }
@@ -99,14 +99,8 @@ exports.userLogin = (req, res) => {
         .catch(err => {
             //if any errors
             console.error(err);
-
-            if (err.code === 'auth/wrong-password') {
-                //403 means unauthorized
-                return res.status(403).json({ general: 'Wrong credentials, please try again!' });
-            } else {
-                return res.status(500).json({ error: err.code });
-            }
-    
+            //403 means unauthorized
+            return res.status(403).json({ general: 'Wrong credentials, please try again!' });
         });
 }
 
@@ -124,6 +118,43 @@ exports.addUserDetails = (req, res) => {
         });
 }
 
+//get a particular user's details
+exports.getUserDetails = (req, res) => {
+    let userData = {};
+    db.doc(`/users/${req.params.username}`).get()
+        .then(doc => {
+            //check if user exists
+            if (doc.exists) {
+                userData.user = doc.data();
+                //get all user's posts
+                return db.collection('posts').where('username', '==', req.params.username)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+            } else {
+                return res.status(404).json({ error: 'User not found!' });
+            }
+        })
+        .then(data => {
+            userData.posts = [];
+            data.forEach(doc => {
+                userData.posts.push({
+                    body: doc.data().body,
+                    createdAt: doc.data().createdAt,
+                    username: doc.data().username,
+                    imageUrl: doc.data().imageUrl,
+                    numLikes: doc.data().numLikes,
+                    numComments: doc.data().numComments,
+                    postId: doc.id
+                });
+            });
+            return res.json(userData);
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: err.code });
+        });
+}
+
 //get your own user details (liked posts, etc.)
 exports.getAuthenticatedUserDetails = (req, res) => {
     let userData = {};
@@ -138,6 +169,22 @@ exports.getAuthenticatedUserDetails = (req, res) => {
             userData.likes = [];
             data.forEach(doc => {
                 userData.likes.push(doc.data());
+            });
+            return db.collection('notifications').where('recipient', '==', req.user.username)
+                .orderBy('createdAt', 'desc').limit(10).get();
+        })
+        .then(data => {
+            userData.notifications = [];
+            data.forEach(doc => {
+                userData.notifications.push({
+                    recipient: doc.data().recipient,
+                    sender: doc.data().sender,
+                    createdAt: doc.data().createdAt,
+                    postId: doc.data().postId,
+                    type: doc.data().type,
+                    read: doc.data().read,
+                    notificationId: doc.id
+                });
             });
             return res.json(userData);
         })
@@ -207,4 +254,23 @@ exports.uploadImage = (req, res) => {
         });
     });
     busboy.end(req.rawBody);
+}
+
+//marking notifications as read after user has seen them
+exports.markNotificationsRead = (req, res) => {
+    //batch lets you update a bunch of things at once
+    let batch = db.batch();
+    req.body.forEach(notificationId => {
+        const notification = db.doc(`/notifications/${notificationId}`)
+        //takes doc reference and what we want to update
+        batch.update(notification, { read: true });
+    });
+    batch.commit()
+        .then(() => {
+            return res.json({ message: 'Notifications marked as read!' });
+        })
+        .catch(err => {
+            console.error(err);
+            return res.status(500).json({ error: err.code });
+        });
 }
