@@ -54,6 +54,10 @@ app.post('/notifications', FBAuth, markNotificationsRead);
 //example route: www.site.com/api/login                                                              //
 exports.api = functions.https.onRequest(app);
 
+//THIS SECTION CONTAINS THE DB TRIGGERS                                                 //
+//THINGS THAT HAPPEN WHEN SOMETHING HAPPENS, LIKE AN EVENT LISTENER                    //
+//can remove things on firebase console and see it happen, no need to send a request  //
+
 //create a notification when a post gets a like
 //region of current region
 exports.createNotificationOnLike = functions.region('us-central1').firestore.document('likes/{id}')
@@ -79,11 +83,12 @@ exports.createNotificationOnLike = functions.region('us-central1').firestore.doc
             });
     });
 
-//identical to create notif on like excepty changing type to comment
+//identical to create notif on like except changing type to comment
 exports.createNotificationOnComment = functions.region('us-central1').firestore.document('comments/{id}')
     .onCreate(snapshot => {
         return db.doc(`/posts/${snapshot.data().postId}`).get()
             .then(doc => {
+                //check if post exists and if the owner of the post is the commenter, no notif. same logic for on like
                 if (doc.exists && doc.data().username !== snapshot.data().username) {
                     return db.doc(`/notifications/${snapshot.id}`).set({
                         createdAt: new Date().toISOString(),
@@ -114,3 +119,58 @@ exports.deleteNotificationOnDislike = functions.region('us-central1').firestore.
                 return;
             });
     });
+
+//if user changes profile picture, updates the picture on all of their posts
+// note: this trigger will happen if anything is changed in user's info.
+exports.onUserImageChange = functions.region('us-central1').firestore.document('/users/{userId}')
+    .onUpdate(change => {
+        //can compare the before and after pictures to see what changed
+        console.log(change.before.data());
+        console.log(change.after.data());
+        //only need to do it if the image has changed
+        if (change.before.data().imageUrl !== change.after.data().imageUrl) {
+            console.log('image has changed');
+            //batch to get all
+            const batch = db.batch();
+            //return all posts that are the user's
+            return db.collection('posts')
+                .where('username', '==', change.before.data().username).get()
+                .then(data => {
+                    //then for each post, update the imageUrl value
+                    data.forEach(doc => {
+                        const post = db.doc(`/posts/${doc.id}`);
+                        batch.update(post, { imageUrl: change.after.data().imageUrl });
+                    })
+                    return batch.commit();
+                });
+        } else return true;
+    })
+
+//when a post is deleted, also delete all comments, likes, and notifications linked to the post
+exports.onPostDelete = functions.region('us-central1').firestore.document('/posts/{postId}')
+    .onDelete((snapshot, context) => {
+        const postId = context.params.postId;
+        const batch = db.batch();
+        return db.collection('comments').where('postId', '==', postId).get()
+            .then(data => {
+                data.forEach(doc => {
+                    batch.delete(db.doc(`/comments/${doc.id}`));
+                })
+                return db.collection('likes').where('postId', '==', postId).get();
+            })
+            .then(data => {
+                data.forEach(doc => {
+                    batch.delete(db.doc(`/likes/${doc.id}`));
+                })
+                return db.collection('notifications').where('postId', '==', postId).get();
+            })
+            .then(data => {
+                data.forEach(doc => {
+                    batch.delete(db.doc(`/notifications/${doc.id}`));
+                })
+                return batch.commit();
+            })
+            .catch(err => {
+                console.error(err)
+            });
+    })
