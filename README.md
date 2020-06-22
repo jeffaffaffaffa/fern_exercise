@@ -21,5 +21,6 @@
 - end of package.json file:
     - "proxy": "https://us-central1-react-firebase-exercise-a96db.cloudfunctions.net/api"
 - npm install --save dayjs
+- npm install --save jwt-decode (json web tokens)
 
 Updated: 06.19.2020
