@@ -7,10 +7,12 @@ const initialState = {
     notifications: []
 };
 
+//takes in a state and then an action
 export default function(state = initialState, action) {
     switch(action.type) {
         case SET_AUTHENTICATED:
             return {
+                //spreads everything in state; its 4 fields
                 ...state,
                 authenticated: true
             };
