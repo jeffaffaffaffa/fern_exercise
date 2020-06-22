@@ -14,7 +14,12 @@
 - after making components and pages folders and minor formatting:
     - npm install --save react-router-dom
 - using material ui: 
+    - https://material-ui.com
     - npm install --save @material-ui/core
 - starting react app: npm start in directory
+- npm install --save axios
+- end of package.json file:
+    - "proxy": "https://us-central1-react-firebase-exercise-a96db.cloudfunctions.net/api"
+- npm install --save dayjs
 
 Updated: 06.19.2020
