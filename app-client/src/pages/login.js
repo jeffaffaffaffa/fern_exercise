@@ -12,34 +12,10 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const style = {
-    form: {
-        textAlign: 'center'
-    },
-    image: {
-        margin: '20px auto 20px auto'
-    },
-    pageTitle: {
-        margin: '10px auto 10px auto'
-    },
-    textField: {
-        margin: '10px auto 10px auto'
-    },
-    button: {
-        marginTop: 20,
-        marginBottom: 20,
-        position: 'relative'
-    },
-    customError: {
-        color: 'red',
-        fontSize: '0.8rem',
-        marginTop: 10
-    },
-    progress: {
-        //button is relative, absolute puts the spinner in the middle of the button
-        postiion: 'absolute'
-    }
-};
+const style = (theme) => ({
+    //from theme in app
+    ...theme.spreadThis
+});
 
 class login extends Component {
     constructor() {
@@ -67,6 +43,8 @@ class login extends Component {
         axios.post('/login', userData)
             .then(res => {
                 console.log(res.data);
+                //store the token in local storage so it isnt lost when page is reloaded
+                localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
                 this.setState({
                     loading: false
                 });
