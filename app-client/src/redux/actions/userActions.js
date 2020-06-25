@@ -63,6 +63,16 @@ export const getUserData = () => (dispatch) => {
         .catch(err => console.log(err));
 }
 
+export const uploadImage = (formData) => (dispatch) => {
+    dispatch({ type: LOADING_USER });
+    //post to this user's image and updates it with new one
+    axios.post('/user/image', formData)
+        .then(() => {
+            dispatch(getUserData());
+        })
+        .catch(err => console.log(err));
+}
+
 const setAuthHeader = (token) => {
     //store the token in local storage so it isnt lost when page is reloaded
     const FBIdToken = `Bearer ${token}`;
