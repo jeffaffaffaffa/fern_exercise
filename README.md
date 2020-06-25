@@ -25,5 +25,6 @@
 - npm install --save dayjs
 - npm install --save jwt-decode (json web tokens)
 - npm install --save redux react-redux redux-thunk (setting up redux)
+- npm install --save @material-ui/icons (for icons)
 
 Updated: 06.22.2020
