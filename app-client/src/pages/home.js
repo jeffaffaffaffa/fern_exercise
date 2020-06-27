@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 import Post from '../components/Post';
 import Profile from '../components/Profile';
+
+import { connect } from 'react-redux';
+import { getPosts } from '../redux/actions/dataActions';
 
 class home extends Component {
     // initialize our state with what we want
@@ -12,21 +16,15 @@ class home extends Component {
     }
     // link to backend route
     componentDidMount() {
-        axios.get('/posts')
-            .then(res => {
-                // console.log(res.data);
-                this.setState({
-                    posts: res.data
-                })
-            })
-            .catch(err => console.log(err));
+        this.props.getPosts();
     }
     render() {
+        const { posts, loading } = this.props.data;
         //if there are posts, we show the post body, else we say loading...
-        let recentPostsMarkup = this.state.posts ? (
+        let recentPostsMarkup = !loading ? (
             //for each post, show something
             // each child needs unique key property
-            this.state.posts.map(post => <Post key = { post.postId } post = { post }/>)
+            posts.map(post => <Post key = { post.postId } post = { post }/>)
         ) : (
             <p>Loading...</p>
         );
@@ -44,4 +42,13 @@ class home extends Component {
     }
 }
 
-export default home
+home.propTypes = {
+    getPosts: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+    data: state.data
+})
+
+export default connect(mapStateToProps, { getPosts })(home);
