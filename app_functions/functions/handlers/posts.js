@@ -17,7 +17,9 @@ exports.getAllPosts = (req, res) => {
                 body: doc.data().body,
                 username: doc.data().username,
                 createdAt: doc.data().createdAt,
-                imageUrl: doc.data().imageUrl
+                imageUrl: doc.data().imageUrl,
+                numLikes: doc.data().numLikes,
+                numComments: doc.data().numComments
             });
         });
         //return the list of posts as the response, in json format
