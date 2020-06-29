@@ -1,4 +1,4 @@
-import { SET_POSTS, LIKE_POST, DISLIKE_POST, LOADING_DATA } from '../types';
+import { SET_POSTS, LIKE_POST, DISLIKE_POST, LOADING_DATA, DELETE_POST } from '../types';
 
 const initialState = {
     //array that holds all posts
@@ -30,6 +30,13 @@ export default function(state = initialState, action) {
             if (state.post.postId === action.payload.postId) {
                 state.post = action.payload;
             }
+            return {
+                ...state
+            }
+        case DELETE_POST:
+            //find index of post and remove locally, already removed from db
+            index = state.posts.findIndex(post => post.postId === action.payload);
+            state.posts.splice(index, 1);
             return {
                 ...state
             }
