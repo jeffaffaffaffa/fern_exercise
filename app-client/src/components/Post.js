@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import PropTypes from 'prop-types';
 import MyButton from '../util/MyButton';
+import DeletePost from './DeletePost';
 
 //MUI
 import Card from '@material-ui/core/Card';
@@ -23,11 +24,12 @@ import { likePost, dislikePost } from '../redux/actions/dataActions';
 
 const style = {
     card: {
+        position: 'relative',
         display: 'flex',
-        marginBottom: 20,
+        marginBottom: 20
     },
     image: {
-        minWidth: 150,
+        minWidth: 150
     },
     content: {
         padding: 25,
@@ -60,8 +62,10 @@ class Post extends Component {
         const { 
             classes, 
             post : { body, createdAt, imageUrl, username, postId, numLikes, numComments },
-            user: { authenticated } 
+            user: { authenticated, credentials: { username: userhandle } } 
         } = this.props;
+
+        //can rename a variable when destructuring: https://flaviocopes.com/how-to-rename-object-destructuring/
 
         //if not logged in, like button redirects to login page. otherwise it is a normal like button
         const likeButton = !authenticated ? (
@@ -82,6 +86,10 @@ class Post extends Component {
             )
         );
 
+        const deleteButton = authenticated && userhandle === username ? (
+            <DeletePost postId={postId}/>
+        ) : null;
+
         return (
             <Card className={classes.card}>
                 <CardMedia 
@@ -91,6 +99,9 @@ class Post extends Component {
                 />
                 <CardContent className={classes.content}>
                     <Typography variant = "h5" component={Link} to={`/users/${username}`} color="primary">{ username }</Typography>
+                    
+                    {deleteButton}
+                    
                     <Typography variant = "body2" color = "textSecondary">{dayjs(createdAt).fromNow()}</Typography>
                     <Typography variant="body1">{body}</Typography>
 
@@ -103,7 +114,7 @@ class Post extends Component {
 
                 </CardContent>
             </Card>
-        )
+        );
     }
 }
 
