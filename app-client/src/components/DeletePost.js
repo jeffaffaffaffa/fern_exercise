@@ -22,7 +22,7 @@ const style = {
 };
 
 class DeletePost extends Component {
-    
+    //boolean for if the delete post dialog box is open
     state = {
         open: false
     };
@@ -36,6 +36,7 @@ class DeletePost extends Component {
     };
 
     deletePost = () => {
+        //delete post function frm data actions
         this.props.deletePost(this.props.postId);
         this.setState({ open: false });
     };
@@ -59,7 +60,7 @@ class DeletePost extends Component {
                     maxWidth="sm"
                 >
                     <DialogTitle>
-                        Are you sure? Note: post may not immediately be removed from page, refresh the page if needed.
+                        Are you sure? Note: post may not be immediately removed from page, refresh the page if needed.
                     </DialogTitle>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
