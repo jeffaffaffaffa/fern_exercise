@@ -42,7 +42,7 @@ export default {
         },
         progress: {
             //button is relative, absolute puts the spinner in the middle of the button
-            postiion: 'absolute'
+            position: 'absolute'
         }
     }
 };
