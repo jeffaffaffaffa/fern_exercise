@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 //this allows each component to be able to connect to the redux state for the whole app
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import MyButton from '../util/MyButton';
-import AddPost from './AddPost';
+import MyButton from '../../util/MyButton';
+import AddPost from '../post/AddPost';
 
 //material ui stuff
 import AppBar from '@material-ui/core/AppBar';
