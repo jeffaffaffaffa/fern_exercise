@@ -4,11 +4,11 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import MyButton from '../util/MyButton';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
+import LikeButton from './LikeButton';
 
 //MUI
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 //icons
 import CloseIcon from '@material-ui/icons/Close';
 import UnfoldMore from '@material-ui/icons/UnfoldMore';
+import ChatIcon from '@material-ui/icons/Chat';
 
 //redux
 import { connect } from 'react-redux';
@@ -84,7 +85,7 @@ class PostDialog extends Component {
                 <Grid item sm={5}>
                     <img src={imageUrl} alt="Profile" className={classes.profileImage}/>
                 </Grid>
-                <Grid item sm={5}>
+                <Grid item sm={6}>
                     <Typography
                         component={Link}
                         color="primary"
@@ -101,6 +102,14 @@ class PostDialog extends Component {
                     <Typography variant="body1">
                         {body}
                     </Typography>
+
+                    <LikeButton postId={postId}/>
+                    <span>{numLikes} Likes</span>
+                    <MyButton tip="comments">
+                        <ChatIcon color="primary"/>
+                    </MyButton>
+                    <span>{numComments} Comments</span>
+
                 </Grid>
             </Grid>
         )
