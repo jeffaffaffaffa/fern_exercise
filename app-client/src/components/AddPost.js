@@ -15,20 +15,22 @@ import CloseIcon from '@material-ui/icons/Close';
 
 //redux
 import { connect } from 'react-redux';
-import { addPost } from '../redux/actions/dataActions';
+import { addPost, clearErrors } from '../redux/actions/dataActions';
 
 const style = theme => ({
     ...theme.spreadThis,
     submitButton: {
-        position: 'relative'
+        position: 'relative',
+        float: 'right',
+        marginTop: 10
     },
     progressSpinner: {
         position: 'absolute'
     },
     closeButton: {
         position: 'absolute',
-        left: '90%',
-        top: '10%'
+        left: '91%',
+        top: '6%'
     }
 });
 
@@ -49,8 +51,7 @@ class AddPost extends Component {
         };
         //if no errors and done loading, we want to clear the text in body
         if (!nextProps.UI.errors && !nextProps.UI.loading) {
-            this.setState({ body: '' });
-            this.handleClose();
+            this.setState({ body: '', open: false, errors: {} });
         };
     };
 
@@ -59,6 +60,7 @@ class AddPost extends Component {
     };
 
     handleClose = () => {
+        this.props.clearErrors();
         this.setState({ open: false, errors: {} });
     };
 
@@ -120,6 +122,7 @@ class AddPost extends Component {
 
 AddPost.propTypes = {
     addPost: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired,
     UI: PropTypes.object.isRequired
 };
 
@@ -128,4 +131,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { addPost })(withStyles(style)(AddPost));
+export default connect(mapStateToProps, { addPost, clearErrors })(withStyles(style)(AddPost));

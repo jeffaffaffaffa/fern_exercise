@@ -60,7 +60,7 @@ class DeletePost extends Component {
                     maxWidth="sm"
                 >
                     <DialogTitle>
-                        Are you sure? Note: post may not be immediately removed from page, refresh the page if needed.
+                        Are you sure? Post may not be immediately removed from page, refresh the page to reflect changes.
                     </DialogTitle>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
