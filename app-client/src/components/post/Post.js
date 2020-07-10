@@ -61,7 +61,7 @@ class Post extends Component {
                     className = {classes.image}
                 />
                 <CardContent className={classes.content}>
-                    <Typography variant = "h5" component={Link} to={`/users/${username}`} color="primary">{ username }</Typography>
+                    <Typography variant = "h5" component={Link} to={`/users/${username}`} color="primary">@{username}</Typography>
                     
                     {deleteButton}
                     
