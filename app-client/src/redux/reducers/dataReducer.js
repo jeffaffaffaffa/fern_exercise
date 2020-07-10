@@ -1,4 +1,4 @@
-import { SET_POST, SET_POSTS, LIKE_POST, DISLIKE_POST, LOADING_DATA, DELETE_POST, ADD_POST } from '../types';
+import { SET_POST, SET_POSTS, LIKE_POST, DISLIKE_POST, LOADING_DATA, DELETE_POST, ADD_POST, SUBMIT_COMMENT } from '../types';
 
 const initialState = {
     //array that holds all posts
@@ -52,6 +52,16 @@ export default function(state = initialState, action) {
                     action.payload,
                     ...state.posts
                 ]
+            };
+        case SUBMIT_COMMENT:
+            return {
+                ...state,
+                post: {
+                    //spread existing post
+                    ...state.post,
+                    //in comments, get comment just submitted and spread rest of the comments
+                    comments: [action.payload, ...state.post.comments]
+                }
             };
         default:
             return state;
