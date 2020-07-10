@@ -1,4 +1,4 @@
-import { SET_POST, SET_POSTS, LOADING_DATA, LIKE_POST, DISLIKE_POST, DELETE_POST, LOADING_UI, CLEAR_ERRORS, SET_ERRORS, ADD_POST, STOP_LOADING_UI } from '../types';
+import { SET_POST, SET_POSTS, LOADING_DATA, LIKE_POST, DISLIKE_POST, DELETE_POST, LOADING_UI, CLEAR_ERRORS, SET_ERRORS, ADD_POST, STOP_LOADING_UI, SUBMIT_COMMENT } from '../types';
 import axios from 'axios';
 
 //get all posts
@@ -41,7 +41,7 @@ export const addPost = (newPost) => (dispatch) => {
                 type: ADD_POST,
                 payload: res.data
             });
-            dispatch({ type: CLEAR_ERRORS });
+            dispatch(clearErrors());
         })
         .catch(err => {
             dispatch({
@@ -77,6 +77,24 @@ export const dislikePost = (postId) => dispatch => {
         .catch(err => console.log(err));
 }
 
+//submit a comment
+export const submitComment = (postId, commentData) => dispatch => {
+    axios.post(`/posts/${postId}/comment`, commentData)
+        .then(res => {
+            dispatch({
+                type: SUBMIT_COMMENT,
+                payload: res.data
+            });
+            dispatch(clearErrors());
+        })
+        .catch(err => {
+            dispatch({
+                type: SET_ERRORS,
+                payload: err.response.data
+            });
+        });
+}
+
 export const deletePost = (postId) => (dispatch) => {
     axios.delete(`/posts/${postId}`)
         .then(() => {
@@ -85,6 +103,7 @@ export const deletePost = (postId) => (dispatch) => {
         .catch(err => console.log(err));
 }
 
+//function that only dispatches an action is called an action creator
 export const clearErrors = () => dispatch => {
     dispatch({ type: CLEAR_ERRORS });
 }
