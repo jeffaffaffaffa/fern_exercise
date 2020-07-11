@@ -8,6 +8,9 @@ const FBAuth = require('./util/FBAuth');
 const { getAllPosts, createNewPost, getPost, commentOnPost, likePost, dislikePost, deletePost } = require('./handlers/posts');
 const { userSignup, userLogin, uploadImage, addUserDetails, getAuthenticatedUserDetails, getUserDetails, markNotificationsRead } = require('./handlers/users');
 
+const cors = require('cors');
+app.use(cors());
+
 const { db } = require('./util/admin');
 
 //** POST ROUTES **//

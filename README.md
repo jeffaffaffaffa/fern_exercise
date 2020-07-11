@@ -25,4 +25,18 @@
 - npm install --save redux react-redux redux-thunk (setting up redux)
 - npm install --save @material-ui/icons (for icons)
 
+- bring proxy from package.json to app.js
+    - axios.defaults.baseURL = 'https://us-central1-react-firebase-exercise-a96db.cloudfunctions.net/api';
+- npm run build to build and test app
+- npm install -g live-server (run 'live-server' in build folder after building)
+- in app_functions
+    - npm install --save cors
+    - in index.js
+        - const cors = require('cors');
+        - app.use(cors());
+- in app_client
+    - firebase init
+        - don't overwrite index.html
+    - firebase deploy
+
 Updated: 7.11.2020
