@@ -103,6 +103,23 @@ export const deletePost = (postId) => (dispatch) => {
         .catch(err => console.log(err));
 }
 
+export const getUserData = (username) => dispatch => {
+    dispatch({ type: LOADING_DATA });
+    axios.get(`/user/${username}`)
+        .then(res => {
+            dispatch({
+                type: SET_POSTS,
+                payload: res.data.posts
+            });
+        })
+        .catch(() => {
+            dispatch({
+                type: SET_POSTS,
+                payload: null
+            });
+        });
+}
+
 //function that only dispatches an action is called an action creator
 export const clearErrors = () => dispatch => {
     dispatch({ type: CLEAR_ERRORS });
