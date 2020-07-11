@@ -1,8 +1,6 @@
 # FERN Exercise (Firebase, Express, React - Redux, Node)
 - Following a Firebase and React tutorial on YouTube to learn how to create a social media app.
 - Video link: https://www.youtube.com/watch?v=m_u6P5k0vP0&t=635s&fbclid=IwAR2fVS8vn0cfoZGhCUPGlDygJUBLpIClMhXv2e7h-ECued13VmOb-bs5K7M
-- Progress: currently at 10:54:30.
-
 - Redux rundown: https://www.youtube.com/watch?v=CVpUuw9XSjY
 
 # Things to note:
@@ -27,4 +25,4 @@
 - npm install --save redux react-redux redux-thunk (setting up redux)
 - npm install --save @material-ui/icons (for icons)
 
-Updated: 7.10.2020
+Updated: 7.11.2020
