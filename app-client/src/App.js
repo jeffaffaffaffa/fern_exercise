@@ -25,6 +25,8 @@ import user from './pages/user';
 
 const theme = createMuiTheme(appStyling);
 
+axios.defaults.baseURL = 'https://us-central1-react-firebase-exercise-a96db.cloudfunctions.net/api';
+
 //decodes token
 const token = localStorage.FBIdToken;
 if (token) {
