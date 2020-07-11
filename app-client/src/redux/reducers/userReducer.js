@@ -1,4 +1,4 @@
-import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, LIKE_POST, DISLIKE_POST } from '../types';
+import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, LIKE_POST, DISLIKE_POST, MARK_NOTIFICATIONS_READ } from '../types';
 
 const initialState = {
     authenticated: false,
@@ -45,6 +45,11 @@ export default function(state = initialState, action) {
                 ...state,
                 //filters out any like that has the same id as the one in payload; dislike and dont account for it
                 likes: state.likes.filter(like => like.postId !== action.payload.postId)
+            };
+        case MARK_NOTIFICATIONS_READ:
+            state.notifications.forEach(notif => notif.read = true);
+            return {
+                ...state
             };
         default:
             return state;
