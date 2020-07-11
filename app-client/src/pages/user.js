@@ -12,12 +12,17 @@ import { getUserData } from '../redux/actions/dataActions';
 class user extends Component {
 
     state = {
-        profile: null
+        profile: null,
+        postIdParam: null
     };
 
     componentDidMount() {
         //match specifies that the param comes from the route from app.js
         const username = this.props.match.params.username;
+        const postId = this.props.match.params.postId;
+
+        if (postId) this.setState({ postIdParam: postId });
+
         this.props.getUserData(username);
         axios.get(`/user/${username}`)
             .then(res => {
@@ -32,14 +37,24 @@ class user extends Component {
     render() {
         //comes from the data reducer
         const { posts, loading } = this.props.data;
+        const { postIdParam } = this.state;
 
-        //if loading, say loading, else if the posts are null, say no posts, else if there are posts, it is each post
+        //if loading, say loading, else if the posts are null, say no posts, else if there are posts and no postidparam, it is each post
+        //else it just opens that post
         const postsMarkup = loading ? (
             <p>Loading data...</p>
         ) : posts === null ? (
             <p>This user has no posts</p>
-        ) : (
+        ) : !postIdParam ? (
             posts.map(post => <Post key={post.postId} post={post}/>)
+        ) : (
+            posts.map(post => {
+                if (post.postId !== postIdParam) {
+                    return <Post key={post.postId} post={post}/>;
+                } else {
+                    return <Post key={post.postId} post={post} openDialog/>;
+                }
+            })
         );
 
         return (

@@ -53,16 +53,40 @@ const style = theme => ({
 class PostDialog extends Component {
     state = {
         open: false,
+        oldPath: '',
+        newPath: ''
     };
 
+    componentDidMount() {
+        //if openDialog is not undefined, we open it
+        if (this.props.openDialog) {
+            this.handleOpen();
+        }
+    }
+
     handleOpen = () => {
+        //current path at home
+        let oldPath = window.location.pathname;
+
+        const { username, postId } = this.props;
+        //new path for the post
+        const newPath = `/users/${username}/posts/${postId}`;
+        //handles edge case when old and new are the same ie just going straight to the url
+        if (oldPath === newPath) oldPath = `/users/${username}`;
+
+        window.history.pushState(null, null, newPath);
+
         this.setState({
-            open: true
+            open: true,
+            oldPath,
+            newPath
         });
         this.props.getPost(this.props.postId);
     }
 
     handleClose = () => {
+        window.history.pushState(null, null, this.state.oldPath);
+
         this.setState({
             open: false
         });

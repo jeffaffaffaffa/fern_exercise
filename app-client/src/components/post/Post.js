@@ -70,11 +70,12 @@ class Post extends Component {
 
                     <LikeButton postId={postId}/>
                     <span>{numLikes} Likes</span>
-                    <MyButton tip="comments">
+                    
+                    <MyButton tip="Expand post to comment">
                         <ChatIcon color="primary"/>
                     </MyButton>
                     <span>{numComments} Comments</span>
-                    <PostDialog postId={postId} username={username}/>
+                    <PostDialog postId={postId} username={username} openDialog={this.props.openDialog}/>
                 </CardContent>
             </Card>
         );
@@ -84,11 +85,12 @@ class Post extends Component {
 Post.propTypes = {
     user: PropTypes.object.isRequired,
     post: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired
-}
+    classes: PropTypes.object.isRequired,
+    openDialog: PropTypes.bool
+};
 
 const mapStateToProps = state => ({
     user: state.user
-})
+});
 
 export default connect(mapStateToProps)(withStyles(style)(Post));
