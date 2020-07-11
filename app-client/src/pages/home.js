@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Post from '../components/post/Post';
 import Profile from '../components/profile/Profile';
+import PostSkeleton from '../util/PostSkeleton';
 
 import { connect } from 'react-redux';
 import { getPosts } from '../redux/actions/dataActions';
@@ -22,7 +23,7 @@ class home extends Component {
             // each child needs unique key property
             posts.map(post => <Post key = { post.postId } post = { post }/>)
         ) : (
-            <p>Loading...</p>
+            <PostSkeleton/>
         );
         
         return (
