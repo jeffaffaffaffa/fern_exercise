@@ -75,7 +75,7 @@ class Notifications extends Component {
                 const icon = notif.type === 'like' ? (
                     <FavoriteIcon color={iconColor} style={{ marginRight: 10 }}/>
                 ) : (
-                    <ChatIcon color={iconColor} style={{ marginRight: 10}}/>
+                    <ChatIcon color={iconColor} style={{ marginRight: 10 }}/>
                 )
 
                 return (
