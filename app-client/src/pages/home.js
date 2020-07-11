@@ -9,14 +9,11 @@ import { connect } from 'react-redux';
 import { getPosts } from '../redux/actions/dataActions';
 
 class home extends Component {
-    // initialize our state with what we want
-    state = {
-        posts: null
-    }
     // link to backend route
     componentDidMount() {
         this.props.getPosts();
     }
+    
     render() {
         const { posts, loading } = this.props.data;
         //if there are posts, we show the post body, else we say loading...
