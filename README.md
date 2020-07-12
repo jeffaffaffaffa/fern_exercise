@@ -39,4 +39,7 @@
         - don't overwrite index.html
     - firebase deploy
 
+Strange issues:
+- not sure why the links for notifications only work when I am on the home page. Won't work if already on a profile page (as in pops up a post dialogue for the post in question).
+
 Updated: 7.11.2020
