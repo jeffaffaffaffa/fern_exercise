@@ -136,7 +136,7 @@ class PostDialog extends Component {
                         {body}
                     </Typography>
 
-                    <LikeButton postId={this.props.postId}/>
+                    <LikeButton postId={postId}/>
                     <span>{numLikes} Likes</span>
                     <MyButton tip="Comment below">
                         <ChatIcon color="primary"/>
