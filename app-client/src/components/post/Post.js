@@ -43,7 +43,15 @@ class Post extends Component {
         //same as const classes = this.props.classes
         const { 
             classes, 
-            post : { body, createdAt, imageUrl, username, postId, numLikes, numComments },
+            post: {
+                postId, 
+                body, 
+                createdAt, 
+                numLikes, 
+                numComments, 
+                imageUrl, 
+                username
+            },
             user: { authenticated, credentials: { username: userhandle } } 
         } = this.props;
 

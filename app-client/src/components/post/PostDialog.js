@@ -78,8 +78,8 @@ class PostDialog extends Component {
 
         this.setState({
             open: true,
-            oldPath,
-            newPath
+            oldPath: oldPath,
+            newPath: newPath
         });
         this.props.getPost(this.props.postId);
     }
@@ -96,8 +96,17 @@ class PostDialog extends Component {
 
     render() {
         const { classes, 
-            post: { postId, body, createdAt, numLikes, numComments, imageUrl, username, comments }, 
-            UI: { loading } 
+            post: {
+                postId, 
+                body, 
+                createdAt, 
+                numLikes, 
+                numComments, 
+                imageUrl, 
+                username, 
+                comments
+            }, 
+            UI: {loading} 
         } = this.props;
 
         const dialogMarkup = loading ? (
@@ -127,9 +136,9 @@ class PostDialog extends Component {
                         {body}
                     </Typography>
 
-                    <LikeButton postId={postId}/>
+                    <LikeButton postId={this.props.postId}/>
                     <span>{numLikes} Likes</span>
-                    <MyButton tip="comments">
+                    <MyButton tip="Comment below">
                         <ChatIcon color="primary"/>
                     </MyButton>
                     <span>{numComments} Comments</span>
@@ -139,7 +148,7 @@ class PostDialog extends Component {
                 <CommentForm postId={postId}/>
                 <Comments comments={comments}/>
             </Grid>
-        )
+        );
 
         return (
             <Fragment>
@@ -160,7 +169,7 @@ class PostDialog extends Component {
                     </DialogContent>
                 </Dialog>
             </Fragment>
-        )
+        );
     }
 }
 

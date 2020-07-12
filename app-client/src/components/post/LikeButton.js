@@ -15,7 +15,7 @@ class LikeButton extends Component {
 
     likedPost = () => {
         //if likes exist and if it can find where the post id is the same (means have already liked)
-        if (this.props.user.likes && this.props.user.likes.find(like => like.postId === this.props.postId)) {
+        if (this.props.user.likes && this.props.user.likes.find((like) => like.postId === this.props.postId)) {
             return true;
         } else {
             return false;

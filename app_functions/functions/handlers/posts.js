@@ -162,6 +162,14 @@ exports.likePost = (req, res) => {
                     return postDocument.update({ numLikes: postData.numLikes });
                 })
                 .then(() => {
+                    //need to also send comments back as page is rerendered; otherwise comments array is undefined
+                    return db.collection('comments').orderBy('createdAt', 'desc').where('postId', '==', req.params.postId).get();
+                })
+                .then((comments) => {
+                    postData.comments = [];
+                    comments.forEach((doc) => {
+                        postData.comments.push(doc.data());
+                    });
                     return res.json(postData);
                 });
             } else {
@@ -210,7 +218,14 @@ exports.dislikePost = (req, res) => {
                         return postDocument.update({ numLikes: postData.numLikes });
                     })
                     .then(() => {
-                        res.json(postData);
+                        return db.collection('comments').orderBy('createdAt', 'desc').where('postId', '==', req.params.postId).get();
+                    })
+                    .then((comments) => {
+                        postData.comments = [];
+                        comments.forEach((doc) => {
+                            postData.comments.push(doc.data());
+                        });
+                        return res.json(postData);
                     });
             }
         })
