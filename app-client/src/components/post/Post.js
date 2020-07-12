@@ -79,7 +79,7 @@ class Post extends Component {
                     <LikeButton postId={postId}/>
                     <span>{numLikes} Likes</span>
                     
-                    <MyButton tip="Expand post to comment">
+                    <MyButton tip="Expand post to see comments">
                         <ChatIcon color="primary"/>
                     </MyButton>
                     <span>{numComments} Comments</span>
