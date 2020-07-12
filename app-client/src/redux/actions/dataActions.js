@@ -52,7 +52,7 @@ export const addPost = (newPost) => (dispatch) => {
 }
 
 //like a post
-export const likePost = (postId) => dispatch => {
+export const likePost = (postId) => (dispatch) => {
     axios.get(`/posts/${postId}/like`)
         .then(res => {
             //dispatching an action with a payload
@@ -65,7 +65,7 @@ export const likePost = (postId) => dispatch => {
 }
 
 //dislike a post
-export const dislikePost = (postId) => dispatch => {
+export const dislikePost = (postId) => (dispatch) => {
     axios.get(`/posts/${postId}/dislike`)
         .then(res => {
             //dispatching an action with a payload
