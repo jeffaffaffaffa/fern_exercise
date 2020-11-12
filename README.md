@@ -3,6 +3,8 @@
 - Video link: https://www.youtube.com/watch?v=m_u6P5k0vP0&t=635s&fbclid=IwAR2fVS8vn0cfoZGhCUPGlDygJUBLpIClMhXv2e7h-ECued13VmOb-bs5K7M
 - Redux rundown: https://www.youtube.com/watch?v=CVpUuw9XSjY
 
+- My deployed site link: https://react-firebase-exercise-a96db.firebaseapp.com
+
 # Things to note:
 - Extra npm packages used: busboy (for image uploads).
 - In the database rules on the Firebase console, line 5 is changed to "allow read, write if false;"
